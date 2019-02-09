@@ -4,6 +4,9 @@ plug "andreyorst/fzf.kak"
 
 colorscheme tomorrow-night
 
+# hide clippy
+set-option global ui_options ncurses_assistant=none
+
 # editorconfig support
 hook global BufCreate .* %{editorconfig-load}
 
