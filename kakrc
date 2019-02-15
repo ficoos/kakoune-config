@@ -108,6 +108,12 @@ map global window j ':focus %opt{mainclient}<ret>' -docstring 'select jump pane'
 map global normal <a-right> ':better-buffer-next<ret>' -docstring 'go to next non-scratch buffer'
 map global normal <a-left> ':better-buffer-previous<ret>' -docstring 'go to previous non-scratch buffer'
 
+evaluate-commands %sh{
+	if [ -f '.project.fish' ]; then
+		echo set-option global makecmd 'proj'
+	fi
+}
+
 define-command better-buffer-previous \
 	-docstring %{better-buffer-next : go to next buffer, but better!
 This skips buffers with names beginning with an asterix (*). } \
