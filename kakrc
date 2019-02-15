@@ -63,8 +63,11 @@ colorscheme gotham
 # hide clippy
 set-option global ui_options ncurses_assistant=none
 
-# editorconfig support
-hook global BufCreate .* %{editorconfig-load}
+# editorconfig
+hook global BufSetOption aligntab=true %{ noexpandtab }
+hook global BufSetOption aligntab=false %{ expandtab }
+hook global BufOpenFile .* %{ editorconfig-load }
+hook global BufNewFile .* %{ editorconfig-load }
 
 # line numbers
 add-highlighter global/ number-lines
