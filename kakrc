@@ -75,6 +75,17 @@ add-highlighter global/ show-matching
 # line numbers
 add-highlighter global/ number-lines
 
+# show whitespace
+add-highlighter global/ show-whitespaces -lf ' '
+
+# show trailing whitespace
+set-face global TrailingWhitespace default,green
+add-highlighter global/ regex '([ \t\r]+)\n' 1:TrailingWhitespace
+
+# highlight cloumn 80
+set-face global ColumnLimit default,black
+add-highlighter global/ column 80 ColumnLimit
+
 # user keys
 map global normal <\> , -docstring 'leader'
 map global user c ':delete-buffer<ret>' -docstring 'delete buffer'
