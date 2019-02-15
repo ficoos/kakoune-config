@@ -15,7 +15,7 @@ plug "lenormf/kakoune-extra" load %{
     vcs.kak
 }
 
-source %val{config}/lsp.kak
+source "%val{config}/lsp.kak"
 
 colorscheme gotham
 
