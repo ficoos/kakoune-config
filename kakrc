@@ -2,7 +2,7 @@ source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 plug "andreyorst/fzf.kak"
 
-colorscheme tomorrow-night
+colorscheme gotham
 
 # hide clippy
 set-option global ui_options ncurses_assistant=none
