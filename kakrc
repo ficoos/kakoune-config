@@ -69,6 +69,9 @@ hook global BufSetOption aligntab=false %{ expandtab }
 hook global BufOpenFile .* %{ editorconfig-load }
 hook global BufNewFile .* %{ editorconfig-load }
 
+# show matching char
+add-highlighter global/ show-matching
+
 # line numbers
 add-highlighter global/ number-lines
 
