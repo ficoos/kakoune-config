@@ -218,3 +218,17 @@ fzf-project-files: fuzzy find files in project' \
 map global normal <c-p> ': fzf-project-files<ret>'
 map global normal <c-f> ': fzf-buffer<ret>'
 
+# git gutter
+hook global WinCreate .* %{ evaluate-commands %sh{
+    if [ -n "${kak_opt_vcs_root_path}" ]; then
+        case "${kak_opt_vcs_name}" in
+            git)
+                echo "
+                    git show-diff
+                    hook global BufWritePost %val{buffile} %{git update-diff}
+                    hook global BufReload %val{buffile} %{git update-diff}
+                    hook global WinDisplay %val{buffile} %{git update-diff}
+                ";;
+        esac
+    fi
+}}
