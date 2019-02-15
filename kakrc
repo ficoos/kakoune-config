@@ -1,5 +1,14 @@
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
+# install plug.kak if not installed
+evaluate-commands %sh{
+    printf "%s\n" "source \"$kak_config/plugins/plug.kak/rc/plug.kak\""
+    if [ ! -d "$kak_config/plugins/plug.kak" ]; then
+        mkdir -p "$kak_config/plugins"
+        git clone https://github.com/andreyorst/plug.kak.git "$kak_config/plugins/plug.kak"
+        printf "%s\n" "plug-install"
+    fi
+}
 
+plug "andreyorst/plug.kak" noload
 plug "andreyorst/fzf.kak"
 
 colorscheme gotham
