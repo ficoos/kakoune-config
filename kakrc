@@ -225,3 +225,10 @@ hook global WinCreate .* %{ evaluate-commands %sh{
         esac
     fi
 }}
+
+# must be last for ordering reasons
+evaluate-commands %sh{
+    if [ -f ".dir.kak" ]; then
+        echo "source .dir.kak"
+    fi
+}
