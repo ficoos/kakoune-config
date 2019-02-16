@@ -1,2 +1,3 @@
 lsp/kak-lsp.toml
+plugins/
 tmux-256color.terminfo
