@@ -102,9 +102,9 @@ map global normal <a-right> ':better-buffer-next<ret>' -docstring 'go to next no
 map global normal <a-left> ':better-buffer-previous<ret>' -docstring 'go to previous non-scratch buffer'
 
 evaluate-commands %sh{
-	if [ -f '.project.fish' ]; then
-		echo set-option global makecmd 'proj'
-	fi
+    if [ -f '.project.fish' ]; then
+        echo set-option global makecmd 'proj'
+    fi
 }
 
 define-command better-buffer-previous \
