@@ -39,6 +39,27 @@ hook global BufSetOption aligntab=false %{ expandtab }
 hook global BufOpenFile .* %{ editorconfig-load }
 hook global BufNewFile .* %{ editorconfig-load }
 
+# highlight todo/fixme/etc
+set-face global Task white,default+b
+declare-option -docstring 'Task matcher' regex task_regex '(TODO:|FIXME:|@\w+:?)'
+add-highlighter shared/CodeTask regex "^\h*(?://|/\*)\h*%opt{task_regex}" 1:Task
+add-highlighter shared/ScriptTask regex "^\h*(?:#)\h*%opt{task_regex}" 1:Task
+add-highlighter shared/MarkupTask regex "^\h*(?:<!--)\h*%opt{task_regex}" 1:Task
+hook global WinSetOption filetype=(c|cpp|javascript|rust|go) %{
+    add-highlighter window/task ref CodeTask
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/task }
+}
+
+hook global WinSetOption filetype=(python|sh|bash|kak) %{
+    add-highlighter window/task ref ScriptTask
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/task }
+}
+
+hook global WinSetOption filetype=(html|xml) %{
+    add-highlighter window/task ref MarkupTask
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/task }
+}
+
 # show matching char
 add-highlighter global/ show-matching
 
