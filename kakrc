@@ -71,14 +71,17 @@ add-highlighter global/ show-whitespaces -lf ' '
 
 # show trailing whitespace
 set-face global TrailingWhitespace default,green
-add-highlighter global/ regex '([ \t\r]+)\n' 1:TrailingWhitespace
+add-highlighter global/ regex '(\h+)\n' 1:TrailingWhitespace
 
 # highlight cloumn 80
 set-face global ColumnLimit default,black
 add-highlighter global/ column 80 ColumnLimit
 
+# git
+set-face global GitBlame default,default
+
 # user keys
-map global normal <\> , -docstring 'leader'
+map global normal <\> ':enter-user-mode<space>user<ret>' -docstring 'leader'
 map global user c ':delete-buffer<ret>' -docstring 'delete buffer'
 map global user t ':tmux-repl-window<ret>' -docstring 'create a new terminal window'
 map global user e ':make-next-error<ret>' -docstring 'go to next error'
