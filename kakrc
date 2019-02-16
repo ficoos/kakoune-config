@@ -8,6 +8,17 @@ evaluate-commands %sh{
     fi
 }
 
+# FIXME: There is a bug in upstream tmux terminfo.
+#        This ensures we have the correct terminfo install.
+#        Remove when bug is fixed upstream.
+nop %sh{
+    terminfo_path=$kak_config/tmux-256color.terminfo
+    if [ ! -f "$terminfo_path" ]; then
+        wget https://raw.githubusercontent.com/mawww/kakoune/master/contrib/tmux-256color.terminfo -O "$terminfo_path"
+        tic "$terminfo_path"
+    fi
+}
+
 plug "andreyorst/plug.kak" noload
 plug "andreyorst/fzf.kak"
 plug "andreyorst/smarttab.kak"
