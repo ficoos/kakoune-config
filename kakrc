@@ -36,6 +36,11 @@ set-option global ui_options ncurses_assistant=none
 # editorconfig
 hook global BufSetOption aligntab=true %{ noexpandtab }
 hook global BufSetOption aligntab=false %{ expandtab }
+hook global BufSetOption indentwidth=.* %{
+    set-option global softtabstop %opt{indentwidth}
+    set-option global tabstop %opt{indentwidth}
+}
+
 hook global BufOpenFile .* %{ editorconfig-load }
 hook global BufNewFile .* %{ editorconfig-load }
 
