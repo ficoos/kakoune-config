@@ -3,6 +3,11 @@ filetypes = ["c", "cpp"]
 roots = ["compile_commands.json", ".ccls", ".git"]
 command = "@kak_config@/lsp/ccls/Release/ccls"
 
+[language.python]
+filetypes = ["python"]
+roots = ["requirements.txt", "setup.py", ".git", ".hg"]
+command = "@kak_config@/lsp/pyls/pyls"
+
 [language.javascript]
 filetypes = ["javascript"]
 roots = ["package.json"]

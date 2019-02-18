@@ -15,10 +15,11 @@ plug "ul/kak-lsp" do %{
     set-face global DiagnosticWarning default,rgb:333300
     set-face global Reference         default,default+u
 
-    hook global WinSetOption filetype=(c|cpp|javascript) %{
+    hook global WinSetOption filetype=(c|cpp|javascript|python) %{
+        # TODO: analyze server capabilities to choose what to turn on or off
         set-option window lsp_auto_highlight_references true
         set-option window lsp_hover_anchor false
-        lsp-auto-hover-enable
+        lsp-auto-hover-disable
         lsp-enable-window
     }
     hook global WinSetOption filetype=(javascript) %{
@@ -44,6 +45,16 @@ define-command lsp-update-pyls -docstring 'update the python language server' %{
     if [ ! -d "$venv_dir" ]; then
         virtualenv "$venv_dir"
     fi
+    cat > "$venv_dir/pyls" <<EOF
+#!/usr/bin/sh
+if [ -f 'Pipfile' ]; then
+    exec pipenv run pyls
+fi
+base_dir=\$\(dirname \$0\)
+source \$base_dir/bin/activate
+exec \$base_dir/bin/pyls "\$@"
+EOF
+    chmod a+x "$venvdir/pyls"
     cd "$venv_dir"
     source ./bin/activate
     pip install -U 'python-language-server[all]'
