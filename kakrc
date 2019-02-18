@@ -74,13 +74,27 @@ add-highlighter global/ number-lines
 # show whitespace
 add-highlighter global/ show-whitespaces -lf ' '
 
+declare-option bool is_code false
+hook global WinSetOption filetype=(python|sh|bash|kak|c|cpp|javascript|rust|go) %{
+    set-option window is_code true
+    hook -once -always window WinSetOption filetype=.* %{ set-option window is_code false}
+}
 # show trailing whitespace
 set-face global TrailingWhitespace default,green
-add-highlighter global/ regex '(\h+)\n' 1:TrailingWhitespace
+add-highlighter shared/TrailingWhitespace regex '(\h+)\n' 1:TrailingWhitespace
+hook global WinSetOption is_code=true %{
+    add-highlighter window/trailing_whitespace ref TrailingWhitespace
+    hook -once -always window WinSetOption is_code=false %{ remove-highlighter window/trailing_whitespace }
+}
 
 # highlight cloumn 80
+# TODO: make column configurable
 set-face global ColumnLimit default,black
-add-highlighter global/ column 80 ColumnLimit
+add-highlighter shared/ColumnLimit column 80 ColumnLimit
+hook global WinSetOption is_code=true %{
+    add-highlighter window/column_limit ref ColumnLimit
+    hook -once -always window WinSetOption is_code=false %{ remove-highlighter window/column_limit}
+}
 
 # git
 set-face global GitBlame default,default
