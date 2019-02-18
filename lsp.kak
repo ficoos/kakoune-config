@@ -70,3 +70,9 @@ define-command lsp-update-flow -docstring 'update the javascript language server
     npm install --save-dev flow-bin
 }}
 
+map global normal <f1> ':enter-user-mode<space>lsp<ret>'
+map global normal <c-w> ':enter-user-mode<space>window<ret>'
+map global normal <c-w> ':enter-user-mode<space>window<ret>'
+map global normal <c-w> ':enter-user-mode<space>window<ret>'
+map global normal <c-w> ':enter-user-mode<space>window<ret>'
+map global normal <c-w> ':enter-user-mode<space>window<ret>'
