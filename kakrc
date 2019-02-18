@@ -229,6 +229,7 @@ fzf-project-files: fuzzy find files in project' \
 
 map global normal <c-p> ': fzf-project-files<ret>'
 map global normal <,> ': fzf-buffer<ret>'
+map global normal <'> ': fzf-buffer-search<ret>'
 
 # git gutter
 hook global WinCreate .* %{ evaluate-commands %sh{
