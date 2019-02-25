@@ -25,6 +25,7 @@ plug "andreyorst/smarttab.kak"
 plug "lenormf/kakoune-extra" load %{
     vcs.kak
 }
+plug "ficoos/tool.kak"
 
 source "%val{config}/lsp.kak"
 
@@ -105,6 +106,7 @@ map global user c ':delete-buffer<ret>' -docstring 'delete buffer'
 map global user t ':tmux-repl-window<ret>' -docstring 'create a new terminal window'
 map global user e ':make-next-error<ret>' -docstring 'go to next error'
 map global user E ':make-previous-error<ret>' -docstring 'go to previous error'
+map global user b ':tool-build<ret>' -docstring 'build using selected tool'
 
 # window keys
 declare-user-mode window
@@ -119,6 +121,11 @@ map global window j ':focus %opt{mainclient}<ret>' -docstring 'select jump pane'
 
 map global normal <a-right> ':better-buffer-next<ret>' -docstring 'go to next non-scratch buffer'
 map global normal <a-left> ':better-buffer-previous<ret>' -docstring 'go to previous non-scratch buffer'
+
+declare-option str build_tool 'make'
+define-command tool-build %{
+    %opt{build_tool}
+}
 
 evaluate-commands %sh{
     if [ -f '.project.fish' ]; then
