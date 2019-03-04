@@ -34,7 +34,7 @@ def get_git_files():
 def get_find_files():
     get_files(['find', '-type', 'f', '-follow'], 'find')
 
-if os.path.exists('.git'):
+if subprocess.call(('git', 'rev-parse')) == 0:
     get_git_files()
 else:
     get_find_files()
