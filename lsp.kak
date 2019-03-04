@@ -15,10 +15,11 @@ plug "ul/kak-lsp" do %{
     set-face global DiagnosticWarning default,rgb:333300
     set-face global Reference         default,default+u
 
-    hook global WinSetOption filetype=(c|cpp|javascript|python) %{
+    hook global WinSetOption filetype=(c|cpp|javascript|python|go) %{
         # TODO: analyze server capabilities to choose what to turn on or off
         set-option window lsp_auto_highlight_references true
-        set-option window lsp_hover_anchor false
+        set-option window lsp_hover_anchor true
+        set-option window lsp-auto-hover-insert-mode-enable
         lsp-auto-hover-disable
         lsp-enable-window
     }
@@ -69,6 +70,15 @@ define-command lsp-update-flow -docstring 'update the javascript language server
     cd "$flow_dir"
     npm install --save-dev flow-bin
 }}
+
+define-command lsp-update-bingo -docstring 'update the go language server' %{ nop %sh{
+    go get -u github.com/saibing/bingo
+}}
+
+# FIXME: this is here to compensate for https://github.com/ul/kak-lsp/issues/176
+define-command -override -hidden lsp-show-error -params 1 %{
+    echo -debug "kak-lsp:" %arg{1}
+}
 
 map global normal <f1> ':enter-user-mode<space>lsp<ret>'
 map global normal <c-w> ':enter-user-mode<space>window<ret>'

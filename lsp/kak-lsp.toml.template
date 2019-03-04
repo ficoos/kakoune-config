@@ -13,3 +13,9 @@ filetypes = ["javascript"]
 roots = ["package.json"]
 command = "@kak_config@/lsp/flow/node_modules/.bin/flow"
 args = ["lsp"]
+
+[language.go]
+filetypes = ["go"]
+roots = ["Gopkg.toml", "go.mod", ".git", ".hg"]
+command = "bingo"
+args = ["-mode", "stdio", "-enhance-signature-help"]
