@@ -50,7 +50,7 @@ define-command lsp-update-pyls -docstring 'update the python language server' %{
 if [ -f 'Pipfile' ]; then
     exec pipenv run pyls
 fi
-base_dir=\$\(dirname \$0\)
+base_dir=\$(dirname \$0)
 source \$base_dir/bin/activate
 exec \$base_dir/bin/pyls "\$@"
 EOF
