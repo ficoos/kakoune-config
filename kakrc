@@ -264,7 +264,7 @@ define-command -hidden edit-at \
 
 define-command dup-view \
     -params 1 \
-    -client-completion
+    -client-completion \
     -docstring 'dup-view <client>: duplicate current view to client' \
 %{
     edit-at %arg{1} %val{buffile} %val{cursor_line} %val{cursor_column}
