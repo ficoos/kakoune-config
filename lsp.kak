@@ -81,8 +81,3 @@ define-command -override -hidden lsp-show-error -params 1 %{
 }
 
 map global normal <f1> ':enter-user-mode<space>lsp<ret>'
-map global normal <c-w> ':enter-user-mode<space>window<ret>'
-map global normal <c-w> ':enter-user-mode<space>window<ret>'
-map global normal <c-w> ':enter-user-mode<space>window<ret>'
-map global normal <c-w> ':enter-user-mode<space>window<ret>'
-map global normal <c-w> ':enter-user-mode<space>window<ret>'
