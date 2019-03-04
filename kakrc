@@ -253,6 +253,23 @@ hook global WinCreate .* %{ evaluate-commands %sh{
     fi
 }}
 
+define-command -hidden edit-at \
+    -params 2..4 \
+    -docstring 'Edit on a different client' \
+%{
+    evaluate-commands -try-client %arg{1} %{
+        edit %arg{2} %arg{3} %arg{4}
+    }
+}
+
+define-command dup-view \
+    -params 1 \
+    -client-completion
+    -docstring 'dup-view <client>: duplicate current view to client' \
+%{
+    edit-at %arg{1} %val{buffile} %val{cursor_line} %val{cursor_column}
+}
+
 # must be last for ordering reasons
 evaluate-commands %sh{
     if [ -f ".dir.kak" ]; then
