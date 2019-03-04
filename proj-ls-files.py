@@ -5,16 +5,22 @@ import os
 LINE_FORMAT = '\033[33m{prefix} \033[37m{path}\033[0m{base}'
 
 def get_files(cmd, prefix):
-    # TODO:  this method should throw away stderr since it messes up the output
-    output = subprocess.check_output(cmd)
-    lines = output.splitlines()
-    for line in lines:
-        line = line.decode('utf8')
-        base = os.path.basename(line)
-        path = os.path.dirname(line)
-        if path:
-            path += "/"
-        print(LINE_FORMAT.format(prefix=prefix, path=path, base=base))
+    p = subprocess.Popen(
+        cmd,
+        stderr=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        encoding='utf8',
+    )
+    try:
+        for line in p.stdout:
+            line = line.strip()
+            base = os.path.basename(line)
+            path = os.path.dirname(line)
+            if path:
+                path += "/"
+            print(LINE_FORMAT.format(prefix=prefix, path=path, base=base))
+    finally:
+        p.wait()
 
 def get_git_files():
     # TODO: do this in the git root
