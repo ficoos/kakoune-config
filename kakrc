@@ -290,7 +290,9 @@ define-command dup-view \
 
 # must be last for ordering reasons
 evaluate-commands %sh{
-    if [ -f ".dir.kak" ]; then
-        echo "source .dir.kak"
+    lkakrc="${kak_opt_vcs_root_path:-$PWD}/.dir.kak"
+    if [ -f $lkakrc ]; then
+        echo "echo -debug \"Sourcing $lkakrc\""
+        echo "source $lkakrc"
     fi
 }
