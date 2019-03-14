@@ -101,26 +101,27 @@ hook global WinSetOption is_code=true %{
 set-face global GitBlame default,default
 
 # user keys
-map global normal <\> ':enter-user-mode<space>user<ret>' -docstring 'leader'
-map global user c ':delete-buffer<ret>' -docstring 'delete buffer'
-map global user t ':tmux-repl-window<ret>' -docstring 'create a new terminal window'
-map global user e ':make-next-error<ret>' -docstring 'go to next error'
-map global user E ':make-previous-error<ret>' -docstring 'go to previous error'
-map global user b ':tool-build<ret>' -docstring 'build using selected tool'
+map global normal <\> ': enter-user-mode<space>user<ret>' -docstring 'leader'
+map global user c ': delete-buffer<ret>' -docstring 'delete buffer'
+map global user t ': tmux-repl-window<ret>' -docstring 'create a new terminal window'
+map global user e ': make-next-error<ret>' -docstring 'go to next error'
+map global user E ': make-previous-error<ret>' -docstring 'go to previous error'
+map global user b ': tool-build<ret>' -docstring 'build using selected tool'
+map global user C ': comment-line<ret>' -docstring '[un]comment block'
 
 # window keys
 declare-user-mode window
-map global normal <c-w> ':enter-user-mode<space>window<ret>'
-map global window <left> ':nop %sh{ tmux select-pane -t {left-of} }<ret>' -docstring 'select pane to the left'
-map global window <right> ':nop %sh{ tmux select-pane -t {right-of} }<ret>' -docstring 'select pane to the right'
-map global window <up> ':nop %sh{ tmux select-pane -t {up-of} }<ret>' -docstring 'select pane above'
-map global window <down> ':nop %sh{ tmux select-pane -t {down-of} }<ret>' -docstring 'select pane below'
-map global window t ':cw<ret>' -docstring 'select tools pane'
-map global window d ':focus %opt{docsclient}<ret>' -docstring 'select docs pane'
-map global window j ':focus %opt{mainclient}<ret>' -docstring 'select jump pane'
+map global normal <c-w> ': enter-user-mode<space>window<ret>'
+map global window <left> ': nop %sh{ tmux select-pane -t {left-of} }<ret>' -docstring 'select pane to the left'
+map global window <right> ': nop %sh{ tmux select-pane -t {right-of} }<ret>' -docstring 'select pane to the right'
+map global window <up> ': nop %sh{ tmux select-pane -t {up-of} }<ret>' -docstring 'select pane above'
+map global window <down> ': nop %sh{ tmux select-pane -t {down-of} }<ret>' -docstring 'select pane below'
+map global window t ': cw<ret>' -docstring 'select tools pane'
+map global window d ': focus %opt{docsclient}<ret>' -docstring 'select docs pane'
+map global window j ': focus %opt{mainclient}<ret>' -docstring 'select jump pane'
 
-map global normal <a-right> ':better-buffer-next<ret>' -docstring 'go to next non-scratch buffer'
-map global normal <a-left> ':better-buffer-previous<ret>' -docstring 'go to previous non-scratch buffer'
+map global normal <a-right> ': better-buffer-next<ret>' -docstring 'go to next non-scratch buffer'
+map global normal <a-left> ': better-buffer-previous<ret>' -docstring 'go to previous non-scratch buffer'
 
 declare-option str build_tool 'make'
 define-command tool-build %{
