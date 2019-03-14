@@ -174,6 +174,23 @@ This skips buffers with names beginning with an asterix (*). } \
 }}
 
 # ide mode, opens a 3 window tmux format
+declare-option -docstring 'Automatically open ide split' bool auto_ide false
+
+hook -once global WinDisplay .* %{
+    evaluate-commands %sh{
+        if [ "$kak_opt_auto_ide" != "true" ]; then
+            exit
+        fi
+        if [ -z "$TMUX" ]; then
+            exit
+        fi
+        if [ "$kak_client" != "client0" ]; then
+            exit
+        fi
+        echo ide
+    }
+}
+
 define-command ide -docstring 'default ide split' %{
     rename-client main
     set-option global jumpclient main
@@ -181,10 +198,10 @@ define-command ide -docstring 'default ide split' %{
     set-option global toolsclient tools
     nop %sh{ tmux move-pane -t {left-of} }
     nop %sh{ tmux resize-pane -y 11 }
-    focus main
+    nop %sh{ tmux select-pane -t 0 }
     new rename-client docs
     set-option global docsclient docs
-    focus main
+    nop %sh{ tmux select-pane -t 0 }
 }
 
 # vim compat
