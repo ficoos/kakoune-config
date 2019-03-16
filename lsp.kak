@@ -19,7 +19,7 @@ plug "ul/kak-lsp" do %{
         # TODO: analyze server capabilities to choose what to turn on or off
         set-option window lsp_auto_highlight_references true
         set-option window lsp_hover_anchor true
-        set-option window lsp-auto-hover-insert-mode-enable
+        lsp-auto-hover-insert-mode-enable
         lsp-auto-hover-disable
         lsp-enable-window
     }
