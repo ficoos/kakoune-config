@@ -233,8 +233,8 @@ sp: create a new kakoune client in a horizontal split' \
 set-option global make_error_pattern " (?:(?:fatal )?error|warning|note):"
 
 # fzf
-define-command proj-edit -params 2 -hidden %{
-    edit %arg{2}
+define-command proj-edit -params .. -hidden %{
+    evaluate-commands %sh{echo edit $(echo $@ | cut -d ' ' -f 2-)}
 }
 
 define-command fzf-project-files -docstring '
