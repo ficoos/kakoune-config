@@ -108,6 +108,7 @@ map global user e ': make-next-error<ret>' -docstring 'go to next error'
 map global user E ': make-previous-error<ret>' -docstring 'go to previous error'
 map global user b ': tool-build<ret>' -docstring 'build using selected tool'
 map global user C ': comment-line<ret>' -docstring '[un]comment block'
+map global user '\' ': execute-keys \<ret>' -docstring 'no-hooks prefix'
 
 # window keys
 declare-user-mode window
