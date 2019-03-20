@@ -135,6 +135,18 @@ evaluate-commands %sh{
     fi
 }
 
+# TODO: define `write-all-quit-all`
+define-command quit-all \
+    -docstring %{quit-all: quits all clients} \
+%{ evaluate-commands %sh{
+    eval "set -- $kak_client_list"
+    while [ -n "$1" ]; do
+        printf '%s\n' "evaluate-commands -try-client $1 %{quit}"
+        shift
+    done
+}}
+alias global qa quit-all
+
 define-command better-buffer-previous \
 	-docstring %{better-buffer-next : go to next buffer, but better!
 This skips buffers with names beginning with an asterix (*). } \
