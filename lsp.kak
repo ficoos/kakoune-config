@@ -20,7 +20,7 @@ plug "ul/kak-lsp" do %{
         set-option window lsp_auto_highlight_references true
         set-option window lsp_hover_anchor true
         lsp-auto-hover-insert-mode-enable
-        lsp-auto-hover-disable
+        lsp-auto-hover-enable
         lsp-enable-window
     }
     hook global WinSetOption filetype=(javascript) %{
