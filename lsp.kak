@@ -15,7 +15,7 @@ plug "ul/kak-lsp" do %{
     set-face global DiagnosticWarning default,rgb:333300
     set-face global Reference         default,default+u
 
-    hook global WinSetOption filetype=(c|cpp|javascript|python|go) %{
+    hook global WinSetOption filetype=(c|cpp|typescript|javascript|python|go) %{
         # TODO: analyze server capabilities to choose what to turn on or off
         set-option window lsp_auto_highlight_references true
         set-option window lsp_hover_anchor true
@@ -69,6 +69,17 @@ define-command lsp-update-flow -docstring 'update the javascript language server
 
     cd "$flow_dir"
     npm install --save-dev flow-bin
+}}
+
+define-command lsp-update-typescript -docstring 'update the typescript language server' %{ nop %sh{
+    dir=$kak_config/lsp/tsls
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+
+    cd "$dir"
+    npm install --save-dev typescript
+    npm install --save-dev typescript-language-server
 }}
 
 define-command lsp-update-bingo -docstring 'update the go language server' %{ nop %sh{

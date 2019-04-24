@@ -14,6 +14,15 @@ roots = ["package.json"]
 command = "@kak_config@/lsp/flow/node_modules/.bin/flow"
 args = ["lsp"]
 
+# kakoune doesn't differentiate between typescript and tsx files
+# but the language server does. Since tsx is a superset of ts
+# we just set this to be tsx but it might be better to fix this
+[language.typescriptreact]
+filetypes = ["typescript"]
+roots = ["package.json"]
+command = "@kak_config@/lsp/tsls/node_modules/.bin/typescript-language-server"
+args = ["--stdio"]
+
 [language.go]
 filetypes = ["go"]
 roots = ["Gopkg.toml", "go.mod", ".git", ".hg"]
