@@ -51,7 +51,7 @@ declare-option -docstring 'Task matcher' regex task_regex '(TODO:|FIXME:|@\w+:?)
 add-highlighter shared/CodeTask regex "^\h*(?://|/\*)\h*%opt{task_regex}" 1:Task
 add-highlighter shared/ScriptTask regex "^\h*(?:#)\h*%opt{task_regex}" 1:Task
 add-highlighter shared/MarkupTask regex "^\h*(?:<!--)\h*%opt{task_regex}" 1:Task
-hook global WinSetOption filetype=(c|cpp|javascript|rust|go) %{
+hook global WinSetOption filetype=(c|cpp|javascript|rust|go|typescript) %{
     add-highlighter window/task ref CodeTask
     hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/task }
 }
@@ -76,7 +76,7 @@ add-highlighter global/ number-lines
 add-highlighter global/ show-whitespaces -lf ' '
 
 declare-option bool is_code false
-hook global WinSetOption filetype=(python|sh|bash|kak|c|cpp|javascript|rust|go) %{
+hook global WinSetOption filetype=(python|sh|bash|kak|c|cpp|javascript|rust|go|typescript) %{
     set-option window is_code true
     hook -once -always window WinSetOption filetype=.* %{ set-option window is_code false}
 }
