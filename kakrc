@@ -34,6 +34,8 @@ colorscheme gotham
 # hide clippy
 set-option global ui_options ncurses_assistant=none
 
+set-option global idle_timeout 500
+
 # editorconfig
 hook global BufSetOption aligntab=true %{ noexpandtab }
 hook global BufSetOption aligntab=false %{ expandtab }
