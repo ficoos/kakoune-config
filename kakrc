@@ -111,6 +111,13 @@ map global user E ': make-previous-error<ret>' -docstring 'go to previous error'
 map global user b ': tool-build<ret>' -docstring 'build using selected tool'
 map global user C ': comment-line<ret>' -docstring '[un]comment block'
 map global user '\' ': execute-keys \<ret>' -docstring 'no-hooks prefix'
+map global user p ': enter-user-mode<space>paste<ret>' -docstring 'paste clipboard'
+
+# advanced paste
+declare-user-mode paste
+map global paste p '<|>xsel -p -o<ret>' -docstring 'primary'
+map global paste s '<|>xsel -s -o<ret>' -docstring 'secondary'
+map global paste b '<|>xsel -b -o<ret>' -docstring 'clipboard'
 
 # window keys
 declare-user-mode window
