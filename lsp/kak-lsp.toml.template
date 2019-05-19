@@ -26,5 +26,4 @@ args = ["--stdio"]
 [language.go]
 filetypes = ["go"]
 roots = ["Gopkg.toml", "go.mod", ".git", ".hg"]
-command = "bingo"
-args = ["-mode", "stdio", "-enhance-signature-help"]
+command = "gopls"
