@@ -27,6 +27,8 @@ plug "lenormf/kakoune-extra" load %{
 }
 plug "ficoos/tool.kak"
 
+require-module fzf
+
 source "%val{config}/lsp.kak"
 
 colorscheme gotham
