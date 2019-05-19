@@ -91,4 +91,5 @@ define-command -override -hidden lsp-show-error -params 1 %{
     echo -debug "kak-lsp:" %arg{1}
 }
 
-map global normal <f1> ':enter-user-mode<space>lsp<ret>'
+map global normal <f1> ': enter-user-mode<space>lsp<ret>'
+map global normal <f2> ': lsp-rename-prompt<ret>'
