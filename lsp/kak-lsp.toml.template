@@ -26,4 +26,5 @@ args = ["--stdio"]
 [language.go]
 filetypes = ["go"]
 roots = ["Gopkg.toml", "go.mod", ".git", ".hg"]
-command = "gopls"
+command = "bingo"
+offset_encoding = "utf-8"
