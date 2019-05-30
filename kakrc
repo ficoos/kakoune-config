@@ -129,10 +129,6 @@ map global yank b '<a-|>xsel -b -i<ret>' -docstring 'clipboard'
 # window keys
 declare-user-mode window
 map global normal <c-w> ': enter-user-mode<space>window<ret>'
-map global window <left> ': nop %sh{ tmux select-pane -t {left-of} }<ret>' -docstring 'select pane to the left'
-map global window <right> ': nop %sh{ tmux select-pane -t {right-of} }<ret>' -docstring 'select pane to the right'
-map global window <up> ': nop %sh{ tmux select-pane -t {up-of} }<ret>' -docstring 'select pane above'
-map global window <down> ': nop %sh{ tmux select-pane -t {down-of} }<ret>' -docstring 'select pane below'
 map global window t ': cw<ret>' -docstring 'select tools pane'
 map global window d ': focus %opt{docsclient}<ret>' -docstring 'select docs pane'
 map global window j ': focus %opt{mainclient}<ret>' -docstring 'select jump pane'
