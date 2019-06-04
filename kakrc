@@ -31,7 +31,7 @@ require-module fzf
 
 source "%val{config}/lsp.kak"
 
-colorscheme dracula
+colorscheme gotham
 
 # hide clippy
 set-option global ui_options ncurses_assistant=none
