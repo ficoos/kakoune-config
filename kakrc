@@ -52,6 +52,7 @@ hook global BufNewFile .* %{ editorconfig-load }
 set-face global Task white,default+b
 declare-option -docstring 'Task matcher' regex task_regex '(TODO:|FIXME:|@\w+:?)'
 add-highlighter shared/CodeTask regex "^\h*(?://|/\*)\h*%opt{task_regex}" 1:Task
+add-highlighter shared/LuaTask regex "^\h*(?:--)\h*%opt{task_regex}" 1:Task
 add-highlighter shared/ScriptTask regex "^\h*(?:#)\h*%opt{task_regex}" 1:Task
 add-highlighter shared/MarkupTask regex "^\h*(?:<!--)\h*%opt{task_regex}" 1:Task
 hook global WinSetOption filetype=(c|cpp|javascript|rust|go|typescript) %{
@@ -66,6 +67,11 @@ hook global WinSetOption filetype=(python|sh|bash|kak) %{
 
 hook global WinSetOption filetype=(html|xml) %{
     add-highlighter window/task ref MarkupTask
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/task }
+}
+
+hook global WinSetOption filetype=(lua) %{
+    add-highlighter window/task ref LuaTask
     hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/task }
 }
 
