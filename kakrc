@@ -23,6 +23,7 @@ plug "andreyorst/plug.kak" noload
 plug "andreyorst/smarttab.kak"
 plug "lenormf/kakoune-extra" load %{
     vcs.kak
+    filetype/git.kak
 }
 plug "ficoos/tool.kak"
 
