@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 import subprocess
 import os
+import sys
 
-LINE_FORMAT = '\033[33m{prefix} \033[37m{path}\033[0m{base}'
+LINE_FORMAT = '{abspath}\0\033[33m{prefix}\0 \033[37m{path}\033[0m{base}'
 
 
 def get_files(cmd, prefix):
@@ -17,9 +18,16 @@ def get_files(cmd, prefix):
             line = line.strip()
             base = os.path.basename(line)
             path = os.path.dirname(line)
+            abspath = os.path.abspath(line)
             if path:
                 path += "/"
-            print(LINE_FORMAT.format(prefix=prefix, path=path, base=base))
+            sys.stdout.write(LINE_FORMAT.format(
+                abspath=abspath,
+                prefix=prefix,
+                path=path,
+                base=base,
+            ))
+            sys.stdout.write('\n')
     finally:
         p.wait()
 
