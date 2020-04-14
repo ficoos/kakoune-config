@@ -20,14 +20,12 @@ nop %sh{
 }
 
 plug "andreyorst/plug.kak" noload
-plug "andreyorst/fzf.kak"
 plug "andreyorst/smarttab.kak"
 plug "lenormf/kakoune-extra" load %{
     vcs.kak
 }
 plug "ficoos/tool.kak"
 
-require-module fzf
 
 source "%val{config}/lsp.kak"
 
@@ -258,28 +256,45 @@ sp: create a new kakoune client in a horizontal split' \
 set-option global make_error_pattern " (?:(?:fatal )?error|warning|note):"
 
 # fzf
-define-command proj-edit -params .. -hidden %{
-    evaluate-commands %sh{echo edit $(echo $@ | cut -d ' ' -f 2-)}
+
+declare-option str fzf_command 'fzf'
+hook global WinCreate .* %{
+    set-option global fzf_command %sh{
+        [ -n "$TMUX" ] && printf "%s" $kak_config/tmux-fzf.sh && exit 0
+        printf "%s" "pop-vt --stdio --location 2 --size 0.9,0.3 -- fzf"
+    }
 }
 
-define-command fzf-project-files -docstring '
-fzf-project-files: fuzzy find files in project' \
-%{ evaluate-commands %sh{
-    message="Open single or multiple files.
-<ret>: open file in new buffer.
-<c-w>: open file in new window"
-    [ ! -z "${kak_client_env_TMUX}" ] && tmux_keybindings="
-<c-s>: open file in horizontal split
-<c-v>: open file in vertical split"
+define-command fzf-buffer %{
+    evaluate-commands %sh{
+        match=$(
+            eval set -- $kak_quoted_buflist
+            printf "%s\n" "$@" | \
+            grep -x -v -F "$kak_bufname" | \
+            $kak_opt_fzf_command \
+        ) && printf "%s\n" "buffer %{$match}"
+    }
+}
 
-    printf "%s\n" "info -title 'fzf project' '$message$tmux_keybindings'"
-    [ ! -z "${kak_client_env_TMUX}" ] && additional_flags="--expect ctrl-v --expect ctrl-s"
-    printf "%s\n" "fzf -kak-cmd %{proj-edit} -items-cmd %{python3 ~/.config/kak/proj-ls-files.py} -fzf-args %{--expect ctrl-w --ansi -n 2.. $additional_flags}"
-}}
+define-command fzf-project-files \
+    -docstring 'fzf-project-files: fuzzy find files in project' \
+%{
+    evaluate-commands %sh{
+        $kak_config/proj-ls-files.py | \
+        $kak_opt_fzf_command -d '\0' --filepath-word -n '2..' --with-nth '2..' --ansi | \
+        cut -d '' -f 1 | \
+        while read -r l
+        do
+            printf "%s\n" "edit %{$l}"
+        done
+    }
+    #evaluate-commands %sh{
+    #    match=$($kak_config/rofi-edit-file.py) && echo edit "$match"
+    #}
+}
 
 map global normal <c-p> ': fzf-project-files<ret>'
 map global normal <,> ': fzf-buffer<ret>'
-map global normal <'> ': fzf-buffer-search<ret>'
 
 # git gutter
 hook global WinCreate .* %{ evaluate-commands %sh{
