@@ -29,6 +29,7 @@ plug "ficoos/tool.kak"
 
 
 source "%val{config}/lsp.kak"
+source "%val{config}/deflua.kak"
 
 colorscheme gotham
 
