@@ -3,7 +3,7 @@ import subprocess
 import os
 import sys
 
-LINE_FORMAT = '{abspath}\0\033[33m{prefix}\0 \033[37m{path}\033[0m{base}'
+LINE_FORMAT = '{abspath}\0\033[33m{prefix}\0 \033[37m{path}\033[0m{base}\n'
 
 
 def get_files(cmd, prefix):
@@ -27,7 +27,6 @@ def get_files(cmd, prefix):
                 path=path,
                 base=base,
             ))
-            sys.stdout.write('\n')
     finally:
         p.wait()
 
