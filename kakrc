@@ -86,7 +86,7 @@ add-highlighter global/ number-lines
 add-highlighter global/ show-whitespaces -lf ' '
 
 declare-option bool is_code false
-hook global WinSetOption filetype=(python|sh|bash|kak|c|cpp|javascript|rust|go|typescript) %{
+hook global WinSetOption filetype=(python|sh|bash|kak|c|cpp|javascript|rust|go|typescript|lua|git-commit) %{
     set-option window is_code true
     hook -once -always window WinSetOption filetype=.* %{ set-option window is_code false}
 }
