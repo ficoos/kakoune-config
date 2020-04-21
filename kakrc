@@ -268,7 +268,7 @@ set-option global make_error_pattern " (?:(?:fatal )?error|warning|note):"
 declare-option str fzf_command 'fzf'
 hook global WinCreate .* %{
     set-option global fzf_command %sh{
-        [ -n "$TMUX" ] && printf "%s" $kak_config/tmux-fzf.sh && exit 0
+        [ -n "$TMUX" ] && printf "%s" "$kak_config/tmux-fzf.sh" && exit 0
         printf "%s" "pop-vt --stdio --location 2 --size 0.9,0.3 -- fzf"
     }
 }
