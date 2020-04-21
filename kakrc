@@ -124,9 +124,9 @@ map global user y ': enter-user-mode<space>yank<ret>' -docstring 'yank clipboard
 
 # advanced paste
 declare-user-mode paste
-map global paste p '<|>xsel -p -o<ret>' -docstring 'primary'
-map global paste s '<|>xsel -s -o<ret>' -docstring 'secondary'
-map global paste b '<|>xsel -b -o<ret>' -docstring 'clipboard'
+map global paste p '<!>xsel -p -o<ret>' -docstring 'primary'
+map global paste s '<!>xsel -s -o<ret>' -docstring 'secondary'
+map global paste b '<!>xsel -b -o<ret>' -docstring 'clipboard'
 declare-user-mode yank
 map global yank p '<a-|>xsel -p -i<ret>' -docstring 'primary'
 map global yank s '<a-|>xsel -s -i<ret>' -docstring 'secondary'
