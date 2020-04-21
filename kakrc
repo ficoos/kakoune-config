@@ -19,6 +19,8 @@ nop %sh{
     fi
 }
 
+plug "alexherbo2/prelude.kak"
+plug "alexherbo2/connect.kak"
 plug "andreyorst/plug.kak" noload
 plug "andreyorst/smarttab.kak"
 plug "lenormf/kakoune-extra" load %{
@@ -30,6 +32,33 @@ plug "ficoos/tool.kak"
 
 source "%val{config}/lsp.kak"
 source "%val{config}/deflua.kak"
+
+define-command tmux-terminal-left-dock -params 1.. -shell-completion -docstring '
+tmux-terminal-left-pane <program> [<arguments>]: create a new terminal as a tmux pane
+The pane is opened on the left of the window
+The program passed as argument will be executed in the new terminal' \
+%{
+    tmux-terminal-impl 'split-window -f -h -b -l 40' %arg{@}
+}
+
+define-command tmux-terminal-top-dock -params 1.. -shell-completion -docstring '
+tmux-terminal-left-pane <program> [<arguments>]: create a new terminal as a tmux pane
+The pane is opened on the left of the window
+The program passed as argument will be executed in the new terminal' \
+%{
+    tmux-terminal-impl 'split-window -f -v -b -l 20' %arg{@}
+}
+
+
+define-command ranger -docstring 'Open the ranger file browser' %{
+    connect-command tmux-terminal-left-dock ranger "--cmd=source %val{config}/rangerrc"
+}
+
+evaluate-commands %sh{
+    if which ranger &> /dev/null; then
+        echo "map global user f ': ranger<ret>' -docstring 'open file browser'"
+    fi
+}
 
 colorscheme gotham
 
@@ -113,7 +142,7 @@ set-face global GitBlame default,default
 # user keys
 map global normal <\> ': enter-user-mode<space>user<ret>' -docstring 'leader'
 map global user c ': delete-buffer<ret>' -docstring 'delete buffer'
-map global user t ': tmux-repl-window<ret>' -docstring 'create a new terminal window'
+map global user t ': connect-terminal<ret>' -docstring 'create a new terminal window'
 map global user e ': make-next-error<ret>' -docstring 'go to next error'
 map global user E ': make-previous-error<ret>' -docstring 'go to previous error'
 map global user b ': tool-build<ret>' -docstring 'build using selected tool'
@@ -121,6 +150,7 @@ map global user C ': comment-line<ret>' -docstring '[un]comment block'
 map global user '\' ': execute-keys \<ret>' -docstring 'no-hooks prefix'
 map global user p ': enter-user-mode<space>paste<ret>' -docstring 'paste clipboard'
 map global user y ': enter-user-mode<space>yank<ret>' -docstring 'yank clipboard'
+map global user g ': terminal tig<ret>' -docstring 'yank clipboard'
 
 # advanced paste
 declare-user-mode paste
@@ -240,24 +270,40 @@ define-command ide -docstring 'default ide split' %{
 define-command cw -docstring 'jump to toolsclient' \
 %{ focus %opt{toolsclient} }
 
+define-command -hidden -params 1.. terminal-horizontal %{
+    try %{
+        tmux-terminal-horizontal %arg{@}
+    } catch %{
+        try %{
+            i3-terminal-horizontal %arg{@}
+        } catch %{
+            fail "Only supported inside tmux or i3"
+        }
+    }
+}
+
+define-command -hidden -params 1.. terminal-vertical %{
+    try %{
+        tmux-terminal-vertical %arg{@}
+    } catch %{
+        try %{
+            i3-terminal-vertical %arg{@}
+        } catch %{
+            fail "Only supported inside tmux or i3"
+        }
+    }
+}
+
 define-command vsp -docstring '
 vsp: create a new kakoune client in a vertical split' \
 %{
-	try %{
-		tmux-terminal-horizontal kak -c %val{session} -e "buffer %val{bufname}"
-	} catch %{
-		fail "Only supported inside tmux"
-	}
+    terminal-horizontal kak -c %val{session} -e "buffer %val{bufname}"
 }
 
 define-command sp -docstring '
 sp: create a new kakoune client in a horizontal split' \
 %{
-	try %{
-		tmux-terminal-vertical kak -c %val{session} -e "buffer %val{bufname}"
-	} catch %{
-		fail "Only supported inside tmux"
-	}
+    terminal-vertical kak -c %val{session} -e "buffer %val{bufname}"
 }
 
 # make pattern, by default only catches "errors
@@ -342,5 +388,41 @@ evaluate-commands %sh{
     if [ -f $lkakrc ]; then
         echo "echo -debug \"Sourcing $lkakrc\""
         echo "source $lkakrc"
-    fi
+   fi
+}
+
+hook global ModuleLoaded x11 %{
+    set-option global termcmd 'xfce4-terminal -e '
+}
+
+hook global ModuleLoaded x11-repl %{
+define-command -override -docstring %{x11-repl [<arguments>]: create a new window for repl interaction
+All optional parameters are forwarded to the new window} \
+    -params .. \
+    -shell-completion \
+    x11-repl %{ evaluate-commands %sh{
+        if [ -z "${kak_opt_termcmd}" ]; then
+           echo 'fail termcmd option is not set'
+           exit
+        fi
+        if [ $# -eq 0 ]; then cmd="${SHELL:-sh}"; else cmd="$@"; fi
+        # The escape sequence in the printf command sets the terminal's title:
+        setsid ${kak_opt_termcmd} "sh -c \"printf '\e]2;kak_repl_window\a' \
+                && exec ${cmd}\"" < /dev/null > /dev/null 2>&1 &
+}}
+}
+
+define-command evaluate-selection \
+-docstring "evaluate-selection: evaluate the current selection" \
+%{
+    evaluate-commands %sh{
+        tmp=$(mktemp "${TMPDIR:-/tmp}/kakoune_eval_selection.XXXXXXXXX")
+        printf "%s" "$kak_selection" > $tmp
+        printf "%s\n" "source $tmp"
+        printf "%s\n" "nop %sh{rm $tmp}"
+    }
+}
+
+define-lua-command test-lua %{
+    print("echo -debug %{hello world}", kak_buflist)
 }
