@@ -1,7 +1,7 @@
 [language.c_cpp]
 filetypes = ["c", "cpp"]
 roots = ["compile_commands.json", ".ccls", ".git"]
-command = "@kak_config@/lsp/ccls/Release/ccls"
+command = "clangd"
 
 [language.python]
 filetypes = ["python"]
